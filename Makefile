@@ -1,54 +1,80 @@
-# Compiler and Flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
+#    Updated: 2025/02/05 16:15:59 by ryada            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# Project Name
 NAME = so_long
+CC = gcc
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror
+INC_DIR = includes/
+SRC_DIR = src/
+OBJ_DIR = objects/
+GNL_DIR = gnl/
+LIBFT_DIR = Libft/
+PRINTF_DIR = ft_printf/
+MINILIBX_DIR = minilibx-linux/
 
-# Directories
-INCDIR = includes
-SRCDIR = sources
-OBJDIR = objects
-GNLDIR = $(SRCDIR)/gnl
-LIBFTDIR = $(SRCDIR)/Libft
-MINILIBXDIR = minilibx-linux
+SRC_FILES = so_long.c \
+            $(GNL_DIR)get_next_line_utils.c \
+			$(GNL_DIR)get_next_line.c\
 
-# Source Files
-SRCS = $(wildcard $(SRCDIR)/*.c) \
-		$(wildcard $(GNLDIR)/*.c) \
-		test.c
-OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS)) 
+# Convert source files to object files inside OBJ_DIR
+OBJ_FILES = $(addprefix $(OBJ_DIR), $(notdir $(SRC_FILES:.c=.o)))
 
-# Includes and Libraries
-INCLUDES = -I$(INCDIR) -I$(MINILIBXDIR)
-LIBS = -L$(MINILIBXDIR) -lmlx -lXext -lX11
+# Include directories
+INCLUDE = -I $(INC_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -I $(GNL_DIR) -I $(MINILIBX_DIR)
+
+# Library linking
+LIBS = -L $(LIBFT_DIR) -lft -L $(PRINTF_DIR) -lftprintf -L $(MINILIBX_DIR)
 
 # Rules
 all: $(NAME)
+	@echo "🚀 Compilation started..."
+	@echo "📦 Building executable: $(NAME)"
+	@echo "-----------------------------------"
 
-$(NAME): $(OBJDIR) $(OBJS)
-	$(MAKE) -C $(MINILIBXDIR)
-	$(MAKE) -C $(LIBFTDIR)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+$(NAME): $(OBJ_FILES)
+	@make -C $(LIBFT_DIR) --silent
+	@make -C $(PRINTF_DIR) --silent
+	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME) $(LIBS)
+	@echo "✅ Compilation successful!"
+	@echo "🎯 Run with: ./$(NAME)"
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR) $(OBJDIR)/gnl
+# Rule for compiling C files from src/
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
+	@echo "🔨 Compiling: $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Rule for compiling C files from gnl/
+$(OBJ_DIR)%.o: $(GNL_DIR)%.c | $(OBJ_DIR)
+	@echo "🔨 Compiling: $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/gnl/%.o: $(GNLDIR)/%.c | $(OBJDIR)
-	mkdir -p $(OBJDIR)/gnl
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Ensure OBJ_DIR exists before compiling
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 clean:
-	$(MAKE) -C $(MINILIBXDIR) clean
-	$(MAKE) -C $(LIBFTDIR) clean
-	rm -rf $(OBJDIR)
+	@$(RM) $(OBJ_FILES) 
+	@rm -rf $(OBJ_DIR)
+	@make clean -C $(LIBFT_DIR) --silent
+	@make clean -C $(PRINTF_DIR) --silent
+	@echo "🧹 Cleaned object files of $(NAME)!"
 
 fclean: clean
-	rm -f $(NAME)
+	@$(RM) $(NAME)
+	@make fclean -C $(LIBFT_DIR) --silent
+	@make fclean -C $(PRINTF_DIR) --silent
+	@echo "🗑️  Removed executable and object files of $(NAME)!"
 
 re: fclean all
+	@echo "🔄 Recompiling the project..."
 
-.PHONY: all clean fclean re
