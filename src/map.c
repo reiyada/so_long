@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/05 15:31:13 by ryada            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/so_long.h"
 
 void ft_validate_map_line(char *line, int line_number, int expected_width)
@@ -45,7 +33,7 @@ void ft_parse_map(const char *filename)
     fd = open(filename, O_RDONLY);
     if (fd < 0)
     {
-        perror("Error opening file");
+        ft_putstr_fd("Error\n", 1);
         exit(EXIT_FAILURE);
     }
     line_number = 0;
@@ -59,16 +47,4 @@ void ft_parse_map(const char *filename)
         line_number++;
     }
     close(fd);
-}
-
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        ft_printf("Usage: %s <map.ber>\n", argv[0]);
-        return 1;
-    }
-    ft_parse_map(argv[1]);
-    ft_printf("Map is valid!\n");
-    return 0;
 }

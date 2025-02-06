@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
+#    By: rei <rei@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/02/05 16:15:59 by ryada            ###   ########.fr        #
+#    Updated: 2025/02/06 15:28:59 by rei              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ LIBFT_DIR = Libft/
 PRINTF_DIR = ft_printf/
 MINILIBX_DIR = minilibx-linux/
 
-SRC_FILES = so_long.c \
+SRC_FILES = main.c \
+			map.c \
             $(GNL_DIR)get_next_line_utils.c \
 			$(GNL_DIR)get_next_line.c\
 
