@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rei <rei@student.42.fr>                    +#+  +:+       +#+         #
+#    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/02/06 15:28:59 by rei              ###   ########.fr        #
+#    Updated: 2025/02/07 15:31:19 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ PRINTF_DIR = ft_printf/
 MINILIBX_DIR = minilibx-linux/
 
 SRC_FILES = main.c \
-			map.c \
+			map_error.c \
+			map_read.c \
+			map_util.c \
             $(GNL_DIR)get_next_line_utils.c \
 			$(GNL_DIR)get_next_line.c\
 
