@@ -6,13 +6,13 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 14:45:26 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/07 17:19:38 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/08 09:54:01 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-char **ft_store_map(const char *filename)
+char **ft_read_map(const char *filename)
 {
     int fd;
     int i;

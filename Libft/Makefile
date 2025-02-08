@@ -6,11 +6,10 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:33:47 by ryada             #+#    #+#              #
-#    Updated: 2024/11/14 12:33:48 by ryada            ###   ########.fr        #
+#    Updated: 2025/02/08 08:55:16 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Variables
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -32,21 +31,27 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 # Rules
 all: $(NAME)
+	@echo "✅ Libft compiled successfully!"
 
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
+	@echo "📦 Created archive: $(NAME)"
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 bonus: $(OBJS) $(BONUS_OBJS)
 	@ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+	@echo "🎁 Bonus functions of Libft compiled!"
 
 clean:
 	@rm -f $(OBJS) $(BONUS_OBJS)
+	@echo "🧹 Cleaned object files of $(NAME)!"
 
 fclean: clean
 	@rm -f $(NAME)
+	@echo "🗑️  Removed executable and object files of $(NAME)!"
 
 re: fclean all
 
 # Phony targets
 .PHONY: all clean fclean re bonus
-

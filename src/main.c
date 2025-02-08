@@ -6,27 +6,51 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/07 17:19:50 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/08 09:55:12 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
+// int main(int argc, char **argv)
+// {
+//     char **map;
+//     int height;
+//     int width;
+
+//     if (argc != 2)
+//         return (ft_putstr_fd("Error\n", 2), 1);
+//     map = ft_store_map(argv[1]);
+//     if (!map)
+//         return (ft_putstr_fd("Error\n", 2), 1);
+//     height = ft_count_height(map);
+//     width = ft_count_width(map);
+//     if (ft_is_valid_map(map, height, width))
+//         return (ft_printf("Map is valid!\n"), 0);
+//     else
+//         return (ft_putstr_fd("Error\n", 2), 1);
+// }
+
 int main(int argc, char **argv)
 {
-    char **map;
-    int height;
-    int width;
+    t_game game;
 
     if (argc != 2)
-        return (ft_putstr_fd("Error\n", 2), 1);
-    map = ft_store_map(argv[1]);
-    if (!map)
-        return (ft_putstr_fd("Error\n", 2), 1);
-    height = ft_count_height(map);
-    width = ft_count_width(map);
-    if (ft_is_valid_map(map, height, width))
-        return (ft_printf("Map is valid!\n"), 0);
-    else
-        return (ft_putstr_fd("Error\n", 2), 1);
+    {
+        ft_putstr_fd("Usage: ./so_long map.ber\n", 2);
+        return (1);
+    }
+
+    game.map = ft_read_map(argv[1]); // Read the map
+    if (!game.map)
+        return (1);
+
+    game.mlx = mlx_init();
+    game.win = mlx_new_window(game.mlx, ft_count_width(game.map) * 64, ft_map_height(argv[1]) * 64, "so_long");
+
+    ft_load_images(&game); // ✅ Load images
+    ft_draw_map(&game); // ✅ Draw the map
+
+    mlx_loop(game.mlx); // ✅ Keep window open
+    return (0);
 }

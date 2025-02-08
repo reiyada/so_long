@@ -6,7 +6,7 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/02/07 17:04:05 by ryada            ###   ########.fr        #
+#    Updated: 2025/02/08 09:49:48 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,15 @@ OBJ_DIR = objects/
 GNL_DIR = gnl/
 LIBFT_DIR = Libft/
 PRINTF_DIR = ft_printf/
-MLX_DIR = minilibx-linux/
+MLX_DIR = mlx/
 
 CFLAGS = -Wall -Wextra -Werror
-MLX_FLAGS = -L $(MLX_DIR) -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd
+MLX_FLAGS = -L $(MLX_DIR) -lmlx -L /usr/lib -Imlx -lXext -lX11 -lm -lbsd
 
 
 SRC_FILES = main.c \
 			map_error.c \
+			map_load.c \
 			map_read.c \
 			map_util.c \
             $(GNL_DIR)get_next_line_utils.c \
@@ -40,7 +41,7 @@ OBJ_FILES = $(addprefix $(OBJ_DIR), $(notdir $(SRC_FILES:.c=.o)))
 INCLUDE = -I $(INC_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -I $(GNL_DIR) -I $(MLX_DIR)
 
 # Library linking
-LIBS = -L $(LIBFT_DIR) -lft -L $(PRINTF_DIR) -lftprintf -L $(MLX_DIR)
+LIBS = -L $(LIBFT_DIR) -lft -L $(PRINTF_DIR) -lftprintf -L $(MLX_DIR) -lmlx
 
 # Rules
 all: $(NAME)
@@ -49,21 +50,24 @@ all: $(NAME)
 	@echo "-----------------------------------"
 
 $(NAME): $(OBJ_FILES)
-	@make -C $(LIBFT_DIR) --silent
-	@make -C $(PRINTF_DIR) --silent
-	@$(CC) $(CFLAGS) $(OBJ_FILES) $(MLX_DIR) -o $(NAME) $(LIBS)
+	@make -C $(LIBFT_DIR) --silent > /dev/null
+	@make -C $(PRINTF_DIR) --silent > /dev/null
+	@make -C $(MLX_DIR) --silent > /dev/null
+	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME) $(LIBS) $(MLX_FLAGS) 2> /dev/null
 	@echo "✅ Compilation successful!"
 	@echo "🎯 Run with: ./$(NAME)"
 
 # Rule for compiling C files from src/
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 	@echo "🔨 Compiling: $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@ 
 
 # Rule for compiling C files from gnl/
 $(OBJ_DIR)%.o: $(GNL_DIR)%.c | $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 	@echo "🔨 Compiling: $<"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@ 2> /dev/null
 
 # Ensure OBJ_DIR exists before compiling
 $(OBJ_DIR):
