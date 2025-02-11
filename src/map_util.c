@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:29:30 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/08 10:10:03 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:26:37 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,10 @@ int ft_map_height(const char *filename)
     }
     close(fd);
     return (height);
+}
+
+void ft_set_map_dimentions(t_game *game)
+{
+    game->height = ft_count_height(game->map);
+    game->width = ft_count_width(game->map);
 }

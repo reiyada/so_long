@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:10:09 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/08 10:06:53 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:26:10 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,19 @@ typedef struct s_game
     void    *mlx;
     void    *win;
     char    **map;
+    int height;
+    int width;
     t_images img;
 }   t_game;
 
 
 //map_error.c
-int ft_is_rectanglar(char **map, int width);
-int ft_is_covered(char **map, int height, int width);
-int ft_is_valid_char (char **map, int height, int width);
-int ft_check_char_count(char **map, int height, int width);
-int ft_check_valid_path(char **map);
-int ft_is_valid_map(char **map, int height, int width);
+int ft_is_rectanglar(t_game *game);
+int ft_is_covered(t_game *game);
+int ft_is_valid_char (t_game *game);
+int ft_check_char_count(t_game *game);
+int ft_check_valid_path(t_game *game);
+int ft_is_valid_map(t_game *game);
 
 //map_load.c
 void ft_load_images(t_game *game);
@@ -70,6 +72,7 @@ char **ft_copy_map(char **map);
 void ft_flood_fill(char **map, int x, int y);
 void    ft_free_map(char **map);
 int ft_map_height(const char *filename);
+void ft_set_map_dimentions(t_game *game);
 
 
 #endif

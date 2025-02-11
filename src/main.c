@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/08 09:55:12 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:27:33 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,40 @@
 //         return (ft_putstr_fd("Error\n", 2), 1);
 // }
 
+// int main(int argc, char **argv)
+// {
+//     t_game game;
+
+//     if (argc != 2)
+//     {
+//         ft_putstr_fd("Put the file name\n", 2);
+//         return (1);
+//     }
+
+//     game.map = ft_read_map(argv[1]); // Read the map
+//     if (!game.map)
+//         return (1);
+
+//     game.mlx = mlx_init();
+//     game.win = mlx_new_window(game.mlx, ft_count_width(game.map) * 64, ft_map_height(argv[1]) * 64, "so_long");
+
+//     ft_load_images(&game); // Load images
+//     ft_draw_map(&game); // Draw the map
+
+//     mlx_loop(game.mlx); // Keep window open
+//     return (0);
+// }
+
 int main(int argc, char **argv)
 {
     t_game game;
 
     if (argc != 2)
-    {
-        ft_putstr_fd("Usage: ./so_long map.ber\n", 2);
-        return (1);
-    }
-
-    game.map = ft_read_map(argv[1]); // Read the map
+        return (ft_putstr_fd("Error_Invalid argument\n", 2), 1);
+    game.map = ft_read_map(argv[1]);
     if (!game.map)
-        return (1);
-
-    game.mlx = mlx_init();
-    game.win = mlx_new_window(game.mlx, ft_count_width(game.map) * 64, ft_map_height(argv[1]) * 64, "so_long");
-
-    ft_load_images(&game); // ✅ Load images
-    ft_draw_map(&game); // ✅ Draw the map
-
-    mlx_loop(game.mlx); // ✅ Keep window open
-    return (0);
+        return (ft_putstr_fd("Error_Invalid map file\n", 2), 1);
+    ft_set_map_dimentions(&game);
+    if (!ft_is_valid_map(&game))
+        return (ft_putstr_fd("Error_Invalid map\n", 2), 1);
 }

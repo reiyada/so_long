@@ -6,7 +6,7 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/02/08 09:49:48 by ryada            ###   ########.fr        #
+#    Updated: 2025/02/11 10:24:36 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ $(NAME): $(OBJ_FILES)
 	@make -C $(LIBFT_DIR) --silent > /dev/null
 	@make -C $(PRINTF_DIR) --silent > /dev/null
 	@make -C $(MLX_DIR) --silent > /dev/null
-	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME) $(LIBS) $(MLX_FLAGS) 2> /dev/null
+	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME) $(LIBS) $(MLX_FLAGS)
 	@echo "✅ Compilation successful!"
 	@echo "🎯 Run with: ./$(NAME)"
 

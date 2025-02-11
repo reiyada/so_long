@@ -6,26 +6,26 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:30:31 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/07 17:19:45 by ryada            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:23:03 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int ft_is_rectanglar(char **map, int width)
+int ft_is_rectanglar(t_game *game)
 {
     int y;
     int cur_width;
 
-    if (!map || !*map)
+    if (!game->map || !game->map[0])
         return (0);
     y = 1;
-    while (map[y])
+    while (game->map[y])
     {
-        cur_width = ft_strlen(map[y]);
-        if (map[y][cur_width - 1] == '\n')
+        cur_width = ft_strlen(game->map[y]);
+        if (game->map[y][cur_width - 1] == '\n')
             cur_width--;
-        if (cur_width != width)
+        if (cur_width != game->width)
         {
             ft_putstr_fd("Error: Not rectangular\n", 2);
             return (0);
@@ -35,22 +35,22 @@ int ft_is_rectanglar(char **map, int width)
     return (1);
 }
 
-int ft_is_covered(char **map, int height, int width)
+int ft_is_covered(t_game *game)
 {
     int y;
     int x;
 
     y = 0;
-    while (y < height)
+    while (y < game->height)
     {
         x = 0;
-        while (x < width)
+        while (x < game->width)
         {
-            if (y == 0 || y == height - 1 || x == 0 || x == width - 1)
+            if (y == 0 || y == game->height - 1 || x == 0 || x == game->width - 1)
             {
-                if (map[y][x] != '1')
+                if (game->map[y][x] != '1')
                 {
-                    ft_putstr_fd("Error not covered\n", 2);
+                    ft_putstr_fd("Error: Not covered\n", 2);
                     return (0);
                 }
             }
@@ -61,23 +61,22 @@ int ft_is_covered(char **map, int height, int width)
     return (1);
 }
 
-int ft_is_valid_char (char **map, int height, int width)
+int ft_is_valid_char(t_game *game)
 {
-    int y;
-    int x;
+    int y, x;
 
     y = 0;
-    while (y < height)
+    while (y < game->height)
     {
         x = 0;
-        while (x < width)
+        while (x < game->width)
         {
-            if (map[y][x] != '0' && map[y][x] != '1' && map[y][x] != 'C'
-                && map[y][x] != 'E' && map[y][x] != 'P' && map[y][x] != 'H')
-                {
-                    ft_putstr_fd("Error Invalid char\n", 2);
-                    return (0);
-                }
+            if (game->map[y][x] != '0' && game->map[y][x] != '1' && game->map[y][x] != 'C'
+                && game->map[y][x] != 'E' && game->map[y][x] != 'P')
+            {
+                ft_putstr_fd("Error: Invalid char\n", 2);
+                return (0);
+            }
             x++;
         }
         y++;
@@ -85,45 +84,47 @@ int ft_is_valid_char (char **map, int height, int width)
     return (1);
 }
 
-int ft_check_char_count(char **map, int height, int width)
+int ft_check_char_count(t_game *game)
 {
     int c;
     int e;
     int p;
-    int temp_width;
 
+    int y;
+    int x;
     c = 0;
     e = 0;
     p = 0;
-    while(--height >= 0)
+    y = 0;
+    while(y < game->height)
     {
-        temp_width = width;
-        while(--temp_width >= 0)
+        x = 0;
+        while (x < game->width)
         {
-            if (map[height][temp_width] == 'C')
+            if (game->map[y][x] == 'C')
                 c++;
-            else if (map[height][temp_width] == 'E')
+            else if (game->map[y][x] == 'E')
                 e++;
-            else if (map[height][temp_width] == 'P')
+            else if (game->map[y][x] == 'P')
                 p++;
+            x++;
         }
+        y++;
     }
     if (!c || e != 1 || p != 1)
-    {
-        ft_putstr_fd("Error char count\n", 2);
-        return (0);
-    }
+        return (ft_putstr_fd("Error_Invalid char count\n", 2), 0);
     return (1);
 }
 
-int ft_check_valid_path(char **map)
+
+int ft_check_valid_path(t_game *game)
 {
     t_pos player;
     int y;
     int x;
     char **map_copy;
 
-    map_copy = ft_copy_map(map);
+    map_copy = ft_copy_map(game->map);
     ft_find_player(map_copy, &player);
     ft_flood_fill(map_copy, player.column, player.row);
     y = 0;
@@ -146,12 +147,11 @@ int ft_check_valid_path(char **map)
     return (1);
 }
 
-int ft_is_valid_map(char **map, int height, int width)
+int ft_is_valid_map(t_game *game)
 {
-    if (!(ft_is_rectanglar(map, width) && ft_is_covered(map, height, width)
-        && ft_is_valid_char(map, height, width) && ft_check_char_count(map, height, width)
-        && ft_check_valid_path(map)))
-        return (0);
-    else
-        return (1);
+    return (ft_is_rectanglar(game) &&
+            ft_is_covered(game) &&
+            ft_is_valid_char(game) &&
+            ft_check_char_count(game) &&
+            ft_check_valid_path(game));
 }
