@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:29:30 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 15:55:37 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 22:20:20 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,52 @@ int ft_count_width(char **map)
     return (width);
 }
 
-void    ft_find_player(char **map, t_pos *player)
-{
-    int x;
-    int y;
+// void    ft_find_player(char **map, t_pos player)
+// {
+//     int x;
+//     int y;
 
-    y = 0;
-    while (map[y])
+//     y = 0;
+//     while (map[y])
+//     {
+//         x = 0;
+//         while (map[y][x])
+//         {
+//             if (map[y][x] == 'P')
+//             {
+//                 player.column = x;
+//                 player.row = y;
+//                 return;
+//             }
+//             x++;
+//         }
+//         y++;
+//     }
+// }
+
+void ft_find_player_position(t_game *game)
+{
+    int row;
+    int col;
+
+    row = 0;
+    while (row < game->height)
     {
-        x = 0;
-        while (map[y][x])
+        col = 0;
+        while (col < game->width)
         {
-            if (map[y][x] == 'P')
+            if (game->map[row][col] == 'P')
             {
-                player->column = x;
-                player->row = y;
+                game->player.row = row;
+                game->player.column = col;
                 return;
             }
-            x++;
+            col++;
         }
-        y++;
+        row++;
     }
 }
+
 
 char **ft_copy_map(char **map)
 {

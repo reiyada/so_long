@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:30:31 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 16:29:52 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 22:23:40 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int ft_is_valid_char(t_game *game)
         while (x < game->width)
         {
             if (game->map[y][x] != '0' && game->map[y][x] != '1' && game->map[y][x] != 'C'
-                && game->map[y][x] != 'E' && game->map[y][x] != 'P')
+                && game->map[y][x] != 'E' && game->map[y][x] != 'P' && game->map[y][x] != 'H') 
                 return (ft_putstr_fd("Error: Invalid char\n", 2), 0);
             x++;
         }
@@ -110,14 +110,13 @@ int ft_check_char_count(t_game *game)
 
 int ft_check_valid_path(t_game *game)
 {
-    t_pos player;
+    // t_pos player;
     int y;
     int x;
     char **map_copy;
 
     map_copy = ft_copy_map(game->map);
-    ft_find_player(map_copy, &player);
-    ft_flood_fill(map_copy, player.column, player.row);
+    ft_flood_fill(map_copy, game->player.column, game->player.row);
     y = 0;
     while (map_copy[y])
     {

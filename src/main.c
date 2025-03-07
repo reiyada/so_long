@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 17:08:00 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 22:56:01 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,29 @@
 //     return (0);
 // }
 
+int ft_close_game(t_game *game)
+{
+    ft_free_map(game->map); // Free allocated memory for the map
+    mlx_destroy_window(game->mlx, game->win); // Close the window
+    exit(0); // Exit the program cleanly
+    return (0);
+}
+
+
+void    ft_display_window(t_game *game)
+{
+    game->mlx = mlx_init();
+    game->win = mlx_new_window(game->mlx, game->width * TILE_SIZE, game->height * TILE_SIZE, "So Long");
+
+    ft_load_images(game);
+    ft_draw_map(game);
+
+    mlx_hook(game->win, 2, 1L << 0, ft_key_handler, game); // Key press
+    mlx_hook(game->win, 17, 0, ft_close_game, game); // Window close button
+
+    mlx_loop(game->mlx); // Keep window open and listen for events
+}
+
 int main(int argc, char **argv)
 {
     t_game game;
@@ -65,11 +88,9 @@ int main(int argc, char **argv)
     if (!game.map)
         return (ft_putstr_fd("[Error] Invalid map file\n", 2), 1);
     ft_set_map_dimentions(&game);
+    ft_find_player_position(&game);
     if (!ft_is_valid_map(&game))
         return (ft_free_map(game.map), ft_putstr_fd("[Error] Invalid map\n", 2), 1);
-    game.mlx = mlx_init();
-    game.win = mlx_new_window(game.mlx, game.width * TILE_SIZE, game.height * TILE_SIZE, "So Long");
-    ft_load_images(&game);
-    ft_draw_map(&game);
-    mlx_loop(game.mlx);//to keep the window open
+    ft_display_window(&game);
+    
 }
