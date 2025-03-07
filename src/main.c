@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/11 10:27:33 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 17:08:00 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,16 @@ int main(int argc, char **argv)
     t_game game;
 
     if (argc != 2)
-        return (ft_putstr_fd("Error_Invalid argument\n", 2), 1);
+        return (ft_putstr_fd("[Error] Invalid argument\n", 2), 1);
     game.map = ft_read_map(argv[1]);
     if (!game.map)
-        return (ft_putstr_fd("Error_Invalid map file\n", 2), 1);
+        return (ft_putstr_fd("[Error] Invalid map file\n", 2), 1);
     ft_set_map_dimentions(&game);
     if (!ft_is_valid_map(&game))
-        return (ft_putstr_fd("Error_Invalid map\n", 2), 1);
+        return (ft_free_map(game.map), ft_putstr_fd("[Error] Invalid map\n", 2), 1);
+    game.mlx = mlx_init();
+    game.win = mlx_new_window(game.mlx, game.width * TILE_SIZE, game.height * TILE_SIZE, "So Long");
+    ft_load_images(&game);
+    ft_draw_map(&game);
+    mlx_loop(game.mlx);//to keep the window open
 }

@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:10:09 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/11 10:26:10 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 17:35:55 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../mlx/mlx.h"
 # include <fcntl.h>
 
+# define TILE_SIZE 32
 
 typedef struct s_pos
 {

@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:30:31 by ryada             #+#    #+#             */
-/*   Updated: 2025/02/11 10:23:03 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/07 16:29:52 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ int ft_is_rectanglar(t_game *game)
         if (game->map[y][cur_width - 1] == '\n')
             cur_width--;
         if (cur_width != game->width)
-        {
-            ft_putstr_fd("Error: Not rectangular\n", 2);
-            return (0);
-        }
+            return (ft_putstr_fd("Error: Not rectangular\n", 2), 0);
         y++;
     }
     return (1);
@@ -49,10 +46,7 @@ int ft_is_covered(t_game *game)
             if (y == 0 || y == game->height - 1 || x == 0 || x == game->width - 1)
             {
                 if (game->map[y][x] != '1')
-                {
-                    ft_putstr_fd("Error: Not covered\n", 2);
-                    return (0);
-                }
+                    return (ft_putstr_fd("Error: Not covered\n", 2), 0);
             }
             x++;
         }
@@ -73,10 +67,7 @@ int ft_is_valid_char(t_game *game)
         {
             if (game->map[y][x] != '0' && game->map[y][x] != '1' && game->map[y][x] != 'C'
                 && game->map[y][x] != 'E' && game->map[y][x] != 'P')
-            {
-                ft_putstr_fd("Error: Invalid char\n", 2);
-                return (0);
-            }
+                return (ft_putstr_fd("Error: Invalid char\n", 2), 0);
             x++;
         }
         y++;
@@ -89,9 +80,9 @@ int ft_check_char_count(t_game *game)
     int c;
     int e;
     int p;
-
     int y;
     int x;
+
     c = 0;
     e = 0;
     p = 0;
@@ -134,17 +125,12 @@ int ft_check_valid_path(t_game *game)
         while (map_copy[y][x])
         {
             if (map_copy[y][x] == 'C' || map_copy[y][x] == 'E')
-            {
-                ft_putstr_fd("Error path\n", 2);
-                ft_free_map(map_copy);
-                return (0);
-            }
+                return (ft_putstr_fd("Error path\n", 2), ft_free_map(map_copy),0);
             x++;
         }
         y++;
     }
-    ft_free_map(map_copy);
-    return (1);
+    return (ft_free_map(map_copy), 1);
 }
 
 int ft_is_valid_map(t_game *game)
