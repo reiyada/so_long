@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:33:23 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 14:47:44 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 17:30:23 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void ft_move_player(t_game *game, int x_move, int y_move)
         return;
     if (game->map[new_y][new_x] == 'E' && ft_check_collective(game))//If it's the exit and all the collectivs were colleted
     {
-        ft_printf("You win!\n");
+        ft_printf("You won!\n");
         exit(0);
     }
     else if (game->map[new_y][new_x] == 'H')//If the player meets the enemy
     {
-        ft_printf("You lose!\n");
+        ft_printf("You lost!\n");
         exit(1);
     }
     if (y_move == -1)//up

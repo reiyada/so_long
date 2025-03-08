@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:30:31 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 22:23:40 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/08 17:04:29 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ int ft_check_char_count(t_game *game)
     int c;
     int e;
     int p;
+    int h;
     int y;
     int x;
 
     c = 0;
     e = 0;
     p = 0;
+    h = 0;
     y = 0;
     while(y < game->height)
     {
@@ -98,11 +100,13 @@ int ft_check_char_count(t_game *game)
                 e++;
             else if (game->map[y][x] == 'P')
                 p++;
+            else if (game->map[y][x] == 'H')
+                h++;
             x++;
         }
         y++;
     }
-    if (!c || e != 1 || p != 1)
+    if (!c || e != 1 || p != 1 || h > 1)
         return (ft_putstr_fd("Error_Invalid char count\n", 2), 0);
     return (1);
 }
