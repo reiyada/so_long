@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rei <rei@student.42.fr>                    +#+  +:+       +#+         #
+#    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/03/07 22:40:39 by rei              ###   ########.fr        #
+#    Updated: 2025/03/08 11:30:25 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS = -L $(MLX_DIR) -lmlx -L /usr/lib -Imlx -lXext -lX11 -lm -lbsd
 
 
-SRC_FILES = key.c \
+SRC_FILES = checker.c \
+			enemy.c \
+			key.c \
 			main.c \
 			map_error.c \
 			map_load.c \

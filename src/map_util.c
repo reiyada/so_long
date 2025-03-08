@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:29:30 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 22:20:20 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/08 11:14:29 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,51 +34,65 @@ int ft_count_width(char **map)
     return (width);
 }
 
-// void    ft_find_player(char **map, t_pos player)
-// {
-//     int x;
-//     int y;
+t_pos    ft_find_position(char **map, char find)
+{
+    t_pos position;
+    int x;
+    int y;
 
-//     y = 0;
-//     while (map[y])
-//     {
-//         x = 0;
-//         while (map[y][x])
-//         {
-//             if (map[y][x] == 'P')
-//             {
-//                 player.column = x;
-//                 player.row = y;
-//                 return;
-//             }
-//             x++;
-//         }
-//         y++;
-//     }
-// }
+    position.column = 0;
+    position.row = 0;
+    y = 0;
+    while (map[y])
+    {
+        x = 0;
+        while (map[y][x])
+        {
+            if (map[y][x] == find)
+            {
+                position.column = x;
+                position.row = y;
+                return (position);
+            }
+            x++;
+        }
+        y++;
+    }
+    return (position);
+}
 
 void ft_find_player_position(t_game *game)
 {
-    int row;
-    int col;
-
-    row = 0;
-    while (row < game->height)
-    {
-        col = 0;
-        while (col < game->width)
-        {
-            if (game->map[row][col] == 'P')
-            {
-                game->player.row = row;
-                game->player.column = col;
-                return;
-            }
-            col++;
-        }
-        row++;
-    }
+    game->player = ft_find_position(game->map, 'P');
 }
+
+void ft_find_enemy_position(t_game *game)
+{
+    game->enemy = ft_find_position(game->map, 'H');
+}
+
+// void ft_find_player_position(t_game *game)
+// {
+//     int row;
+//     int col;
+
+//     row = 0;
+//     while (row < game->height)
+//     {
+//         col = 0;
+//         while (col < game->width)
+//         {
+//             if (game->map[row][col] == 'P')
+//             {
+//                 game->player.row = row;
+//                 game->player.column = col;
+//                 return;
+//             }
+//             col++;
+//         }
+//         row++;
+//     }
+// }
 
 
 char **ft_copy_map(char **map)

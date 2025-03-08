@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:29:48 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 22:56:01 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/08 13:55:56 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int main(int argc, char **argv)
         return (ft_putstr_fd("[Error] Invalid map file\n", 2), 1);
     ft_set_map_dimentions(&game);
     ft_find_player_position(&game);
+    ft_find_enemy_position(&game);
+    game.move_count = 0;
     if (!ft_is_valid_map(&game))
         return (ft_free_map(game.map), ft_putstr_fd("[Error] Invalid map\n", 2), 1);
     ft_display_window(&game);

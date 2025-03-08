@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:10:09 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/07 22:48:23 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/08 14:13:27 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ typedef struct s_images
 {
     void    *wall;//1
     void    *player;//P
-    void    *collect;//C
+    void    *collect_pink;//C
+    void    *collect_green;//C
+    void    *collect_yellow;//C
+    void    *collect_brown;//C
     void    *exit;//E
     void    *empty;//0
     void    *enemy;//H
@@ -46,12 +49,21 @@ typedef struct s_game
     char    **map;
     int height;
     int width;
+    int move_count;
     t_images img;
     t_pos player;
+    t_pos enemy;
 }   t_game;
+
+//checker.c//
+int ft_check_collective(t_game *game);
+
+//enemy.c//
+void ft_move_enemy(t_game *game);
 
 //key.c//
 void ft_move_player(t_game *game, int x_move, int y_move);
+void ft_change_pose(t_game *game, char who, char direction);
 int ft_key_handler(int key, void *param);
 
 //map_error.c
@@ -72,7 +84,9 @@ char **ft_read_map(const char *filename);
 //map_util.c
 int ft_count_height(char **map);
 int ft_count_width(char **map);
+t_pos    ft_find_position(char **map, char find);
 void ft_find_player_position(t_game *game);
+void ft_find_enemy_position(t_game *game);
 char **ft_copy_map(char **map);
 void ft_flood_fill(char **map, int x, int y);
 void    ft_free_map(char **map);
