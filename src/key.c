@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:33:23 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 14:29:33 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 14:47:44 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void ft_move_player(t_game *game, int x_move, int y_move)
     game->player.column = new_x;//update the new player position
     game->player.row = new_y;
     mlx_clear_window(game->mlx, game->win);
-    //ft_move_enemy(game);
+    if (game->move_count % 2 == 0)
+        ft_move_enemy(game);
     ft_draw_map(game);
 }
 void ft_change_pose(t_game *game, char who, char direction)
@@ -138,7 +139,7 @@ int ft_key_handler(int key, void *param)
             ft_move_player(game, -1, 0);
         else if (key == 100)//D key
             ft_move_player(game, 1, 0);
-        ft_move_enemy(game);
+        //ft_move_enemy(game);
     }
     return (0);
 }
