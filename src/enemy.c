@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:56:29 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 14:52:36 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 16:56:06 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,55 +56,119 @@
 
 void ft_move_enemy(t_game *game)
 {
-    int dx = 0, dy = 0;
+    int dx = 1, dy = 1;
     int new_x, new_y;
 
-    // Calculate the direction towards the player
-    if (game->enemy.column < game->player.column) // Move Right
+    // Determine direction towards player
+    //if (game->enemy.column < game->player.column) // Move Right
+    if (game->player.column - game->enemy.column > 1) // Move Right
         dx = 1;
-    else if (game->enemy.column > game->player.column) // Move Left
+    // else if (game->enemy.column > game->player.column) // Move Left
+    else if (game->enemy.column - game->player.column > 1) // Move Left
         dx = -1;
-    if (game->enemy.row < game->player.row) // Move Down
+    //if (game->enemy.row < game->player.row) // Move Down
+    if (game->player.row - game->enemy.row > 1) // Move Down
         dy = 1;
-    else if (game->enemy.row > game->player.row) // Move Up
+    // else if (game->enemy.row > game->player.row) // Move Up
+    else if (game->enemy.row - game->player.row > 1) // Move Up
         dy = -1;
-    // Prioritize horizontal movement if there's space
+
+    // Try horizontal movement first
     new_x = game->enemy.column + dx;
     new_y = game->enemy.row;
+
     if (game->map[new_y][new_x] != '1' && game->map[new_y][new_x] != 'C' && game->map[new_y][new_x] != 'E')
     {
-        if (game->map[new_y][new_x] == 'P') // Enemy reaches the player
+        if (game->map[new_y][new_x] == 'P') // Enemy reaches player
         {
             ft_printf("You lose! The enemy caught you!\n");
             exit(1);
         }
-        // Move enemy
+
+        // Change enemy sprite direction
+        if (dx == 1)
+            ft_change_pose(game, 'H', 'R'); // Right
+        else if (dx == -1)
+            ft_change_pose(game, 'H', 'L'); // Left
+
+        // Move the enemy
         game->map[game->enemy.row][game->enemy.column] = '0'; // Clear old position
         game->enemy.column = new_x;
         game->map[new_y][new_x] = 'H'; // Place enemy
     }
-    else // If horizontal movement is blocked, try vertical movement
+    else // Try vertical movement if horizontal is blocked
     {
         new_x = game->enemy.column;
         new_y = game->enemy.row + dy;
+
         if (game->map[new_y][new_x] != '1' && game->map[new_y][new_x] != 'C' && game->map[new_y][new_x] != 'E')
         {
-            if (game->map[new_y][new_x] == 'P') // Enemy reaches the player
+            if (game->map[new_y][new_x] == 'P') // Enemy reaches player
             {
                 ft_printf("You lose! The enemy caught you!\n");
                 exit(1);
             }
-            // Move enemy
+
+            // Change enemy sprite direction
+            if (dy == 1)
+                ft_change_pose(game, 'H', 'D'); // Down
+            else if (dy == -1)
+                ft_change_pose(game, 'H', 'U'); // Up
+
+            // Move the enemy
             game->map[game->enemy.row][game->enemy.column] = '0'; // Clear old position
             game->enemy.row = new_y;
             game->map[new_y][new_x] = 'H'; // Place enemy
         }
     }
+
     ft_draw_map(game); // Redraw the map with the updated enemy position
 }
 
 
-// static int dir = 0;
+
+// static int dir = 0;static int dir = 0;
+// void ft_move_enemy(t_game *game)
+// {
+    
+//     int directions[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+//     int new_x;
+//     int new_y;
+    
+//     new_x = game->enemy.column + directions[dir][0];
+//     new_y = game->enemy.row + directions[dir][1];
+//     int i = 0;
+//     while (i < 4)
+//     {
+//         if (game->map[new_y][new_x] != '1' && game->map[new_y][new_x] != 'E' && game->map[new_y][new_x] != 'C')
+//         {
+//             // Check if enemy encounters the player
+//             if (game->map[new_y][new_x] == 'P')
+//             {
+//                 ft_printf("You lose! The enemy caught you!\n");
+//                 exit(1);
+//             }
+//             // Move the enemy
+//             if (dir == 0)//down
+//                 ft_change_pose(game, 'H', 'D');
+//             else if (dir == 1)//right
+//                 ft_change_pose(game, 'H', 'R');
+//             else if (dir == 2)//up
+//                 ft_change_pose(game, 'H', 'U');
+//             else if (dir == 3)//left
+//                 ft_change_pose(game, 'H', 'L');
+//             game->map[game->enemy.row][game->enemy.column] = '0';
+//             game->enemy.row = new_y;
+//             game->enemy.column = new_x;
+//             game->map[new_y][new_x] = 'H';
+//             ft_draw_map(game);
+//             return; // Exit after a successful move
+//         }
+//         i++;
+//     }
+//     dir = (dir + 1) % 4;
+//     ft_draw_map(game);
+// }
 // void ft_move_enemy(t_game *game)
 // {
     
