@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:33:23 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 17:30:23 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 19:16:52 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void ft_move_player(t_game *game, int x_move, int y_move)
     game->map[new_y][new_x] = 'P';//Place player in new position
     game->player.column = new_x;//update the new player position
     game->player.row = new_y;
-    mlx_clear_window(game->mlx, game->win);
+    //mlx_clear_window(game->mlx, game->win);
     if (game->move_count % 2 == 0)
         ft_move_enemy(game);
     ft_draw_map(game);

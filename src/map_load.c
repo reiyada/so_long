@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_load.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 09:45:01 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 14:20:21 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 18:58:56 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void ft_draw_map(t_game *game)
                 else
                     img = game->img.collect_brown;
             }
-                
             else if (game->map[y][x] == 'E')
                 img = game->img.exit;
             else if (game->map[y][x] == 'H')

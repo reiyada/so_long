@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:56:29 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 16:56:06 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/08 18:57:46 by rei              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void ft_move_enemy(t_game *game)
         }
     }
 
-    ft_draw_map(game); // Redraw the map with the updated enemy position
+    // ft_draw_map(game); // Redraw the map with the updated enemy position
 }
 
 
