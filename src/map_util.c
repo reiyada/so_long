@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:29:30 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 11:14:29 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/12 14:28:13 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,31 @@ void ft_find_enemy_position(t_game *game)
     game->enemy = ft_find_position(game->map, 'H');
 }
 
+void ft_find_exit_position(t_game *game)
+{
+    game->exit = ft_find_position(game->map, 'E');
+}
+
+int ft_check_element(t_game *game, char type)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while(game->map[i])
+    {
+        j = 0;
+        while(game->map[i][j])
+        {
+            if (game->map[i][j] == type)
+                return (1);
+            j++;
+        }
+        i++;
+    }
+    return (0);
+}
+
 // void ft_find_player_position(t_game *game)
 // {
 //     int row;
@@ -126,7 +151,7 @@ void ft_flood_fill(char **map, int x, int y)
 {
     if (y < 0 || x < 0 || !map[y] || !map[y][x])
         return;
-    if (map[y][x] == '1' || map[y][x] == 'V' || map[y][x] == 'H')
+    if (map[y][x] == '1' || map[y][x] == 'V' || map[y][x] == 'H' )
         return;
     map[y][x] = 'V'; //visited
     ft_flood_fill(map, x, y - 1);//up
@@ -135,20 +160,18 @@ void ft_flood_fill(char **map, int x, int y)
     ft_flood_fill(map, x + 1, y);//right
 }
 
-void    ft_free_map(char **map)
-{
-    int y;
-
-    if (!map)
-        return;
-    y = 0;
-    while (map[y])
-    {
-        free(map[y]);
-        y++;
-    }
-    free(map);
-}
+// void ft_flood_fill_collective(char **map, int x, int y)
+// {
+//     if (y < 0 || x < 0 || !map[y] || !map[y][x])
+//         return;
+//     if (map[y][x] == 'E')
+//         return;
+//     map[y][x] = 'V'; //visited
+//     ft_flood_fill(map, x, y - 1);//up
+//     ft_flood_fill(map, x, y + 1);//down
+//     ft_flood_fill(map, x - 1, y);//left
+//     ft_flood_fill(map, x + 1, y);//right
+// }
 
 int ft_map_height(const char *filename)
 {
@@ -174,4 +197,99 @@ void ft_set_map_dimentions(t_game *game)
 {
     game->height = ft_count_height(game->map);
     game->width = ft_count_width(game->map);
+}
+
+// int ft_player_is_moved(t_game *game)
+// {
+//     int prev_x;
+//     int prev_y;
+//     int new_x;
+//     int new_y;
+
+//     prev_x = game->player.column;
+//     prev_y = game->player.row;
+//     ft_find_player_position(game);
+//     new_x = game->player.column;
+//     new_y = game->player.row;
+//     if (new_x == prev_x && new_y == prev_y)
+//         return (0);
+//     return (1);
+// }
+
+void ft_free_img(t_game *game)
+{
+    if (!game || !game->mlx)
+        return ;
+    if (game->img.wall)
+        mlx_destroy_image(game->mlx, game->img.wall);
+    if (game->img.player)
+        mlx_destroy_image(game->mlx, game->img.player);
+    if (game->img.collect_pink)
+        mlx_destroy_image(game->mlx, game->img.collect_pink);
+    if (game->img.collect_green)
+        mlx_destroy_image(game->mlx, game->img.collect_green);
+    if (game->img.collect_yellow)
+        mlx_destroy_image(game->mlx, game->img.collect_yellow);
+    if (game->img.collect_brown)
+        mlx_destroy_image(game->mlx, game->img.collect_brown);
+    if (game->img.exit)
+        mlx_destroy_image(game->mlx, game->img.exit);
+    if (game->img.empty)
+        mlx_destroy_image(game->mlx, game->img.empty);
+    if (game->img.enemy)
+        mlx_destroy_image(game->mlx, game->img.enemy);
+}
+
+
+void    ft_free_map(char **map)
+{
+    int y;
+
+    if (!map)
+        return;
+    y = 0;
+    while (map[y])
+    {
+        free(map[y]);
+        y++;
+    }
+    free(map);
+}
+
+void ft_free_game(t_game *game)
+{
+    if (!game)
+        return ;
+    if (!game->win || !game->mlx)
+        return ;
+    if (game->win)
+        mlx_destroy_window(game->mlx, game->win);  // Proper way to free window
+    if (game->mlx)
+    {
+        mlx_destroy_display(game->mlx);  // Required for Linux environments
+        free(game->mlx);  // Free MiniLibX instance
+    }
+}
+
+void    ft_free_elements(t_game *game)
+{
+    if (!game)
+        return ;
+    ft_free_img(game);
+    ft_free_game(game);
+    ft_free_map(game->map);
+    // free(game);
+}
+
+void ft_init_img(t_game *game)
+{
+    game->img.wall= NULL;
+    game->img.player = NULL;
+    game->img.collect_pink = NULL;
+    game->img.collect_green = NULL;
+    game->img.collect_yellow = NULL;
+    game->img.collect_brown = NULL;
+    game->img.exit = NULL;
+    game->img.empty = NULL;
+    game->img.enemy = NULL;
 }

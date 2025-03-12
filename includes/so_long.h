@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:10:09 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 14:13:27 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/12 14:28:23 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_game
     int move_count;
     t_images img;
     t_pos player;
+    t_pos exit;
     t_pos enemy;
 }   t_game;
 
@@ -65,6 +66,9 @@ void ft_move_enemy(t_game *game);
 void ft_move_player(t_game *game, int x_move, int y_move);
 void ft_change_pose(t_game *game, char who, char direction);
 int ft_key_handler(int key, void *param);
+
+//main.c//
+int ft_close_game(t_game *game);
 
 //map_error.c
 int ft_is_rectanglar(t_game *game);
@@ -87,11 +91,15 @@ int ft_count_width(char **map);
 t_pos    ft_find_position(char **map, char find);
 void ft_find_player_position(t_game *game);
 void ft_find_enemy_position(t_game *game);
+void ft_find_exit_position(t_game *game);
 char **ft_copy_map(char **map);
 void ft_flood_fill(char **map, int x, int y);
 void    ft_free_map(char **map);
 int ft_map_height(const char *filename);
 void ft_set_map_dimentions(t_game *game);
-
-
+void ft_free_img(t_game *game);
+int ft_check_element(t_game *game, char type);
+void    ft_free_elements(t_game *game);
+void ft_free_game(t_game *game);
+void ft_init_img(t_game *game);
 #endif

@@ -3,46 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 10:33:23 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 19:16:52 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/12 10:31:26 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-
-// typedef struct s_pos
-// {
-//     int column;
-//     int row;
-// } t_pos;
-
-// typedef struct s_images
-// {
-//     void    *wall;//1
-//     void    *player;//P
-//     void    *collect;//C
-//     void    *exit;//E
-//     void    *empty;//0
-//     void    *enemy;//H
-//     int     width;
-//     int     height;
-// }   t_images;
-
-// typedef struct s_game
-// {
-//     void    *mlx;
-//     void    *win;
-//     char    **map;
-//     int height;
-//     int width;
-//     t_images img;
-//     t_pos player;
-// }   t_game;
-
-
 
 void ft_move_player(t_game *game, int x_move, int y_move)
 {
@@ -53,14 +21,21 @@ void ft_move_player(t_game *game, int x_move, int y_move)
     new_y = game->player.row + y_move;
     if (game->map[new_y][new_x] == '1')//Check if it's a wall
         return;
-    if (game->map[new_y][new_x] == 'E' && ft_check_collective(game))//If it's the exit and all the collectivs were colleted
+    if (game->map[new_y][new_x] == 'E')//If it's the exit and all the collectivs were colleted
     {
-        ft_printf("You won!\n");
+        if (ft_check_collective(game))
+        {
+            ft_printf("You won!\n");
+            ft_free_elements(game);
+            // ft_free_map(game->map);
         exit(0);
+        }
     }
     else if (game->map[new_y][new_x] == 'H')//If the player meets the enemy
     {
         ft_printf("You lost!\n");
+        ft_free_elements(game);
+        // ft_free_map(game->map);
         exit(1);
     }
     if (y_move == -1)//up
@@ -71,23 +46,16 @@ void ft_move_player(t_game *game, int x_move, int y_move)
         ft_change_pose(game, 'P', 'R');
     else if (x_move == -1)//right
         ft_change_pose(game, 'P', 'L');
-    if (game->map[new_y][new_x] == 'E')
-    {
-        new_x = game->player.column;
-        new_y = game->player.row;
-    }
-    else
-    {
-        game->map[game->player.row][game->player.column] = '0';//Remove old position
-        game->move_count++;
-    }
+    game->map[game->player.row][game->player.column] = '0';//Remove old position
+    game->move_count++;
+    if (!ft_check_collective(game) && !ft_check_element(game, 'E'))
+        game->map[game->exit.row][game->exit.column] = 'E';
     game->map[new_y][new_x] = 'P';//Place player in new position
     game->player.column = new_x;//update the new player position
     game->player.row = new_y;
-    //mlx_clear_window(game->mlx, game->win);
+    ft_draw_map(game);
     if (game->move_count % 2 == 0)
         ft_move_enemy(game);
-    ft_draw_map(game);
 }
 void ft_change_pose(t_game *game, char who, char direction)
 {
@@ -96,6 +64,7 @@ void ft_change_pose(t_game *game, char who, char direction)
     img_size = TILE_SIZE;
     if (who == 'P')
     {
+        mlx_destroy_image(game->mlx, game->img.player);
         if (direction == 'U')
             game->img.player = mlx_xpm_file_to_image(game->mlx, "./textures/p_up.xpm", &img_size, &img_size);
         else if (direction == 'D')
@@ -107,6 +76,7 @@ void ft_change_pose(t_game *game, char who, char direction)
     }
     else if (who == 'H')
     {
+        mlx_destroy_image(game->mlx, game->img.enemy);
         if (direction == 'U')
             game->img.enemy = mlx_xpm_file_to_image(game->mlx, "./textures/h_up.xpm", &img_size, &img_size);
         else if (direction == 'D')
@@ -115,6 +85,13 @@ void ft_change_pose(t_game *game, char who, char direction)
             game->img.enemy = mlx_xpm_file_to_image(game->mlx, "./textures/h_right.xpm", &img_size, &img_size);
         else if (direction == 'L')
             game->img.enemy = mlx_xpm_file_to_image(game->mlx, "./textures/h_left.xpm", &img_size, &img_size);
+    }
+    if (!game->img.player || !game->img.enemy)
+    {
+        ft_putstr_fd("[Error] Failed to load images\n", 2);
+        ft_free_elements(game);
+        // ft_free_map(game->map); // Free allocated memory
+        exit(1);
     }
 }
 
@@ -125,8 +102,9 @@ int ft_key_handler(int key, void *param)
     game = (t_game *)param;
     if (key == 65307)//ESC to quit
     {
-        mlx_destroy_window(game->mlx, game->win);
-        exit(0);
+        ft_close_game(game);
+        // mlx_destroy_window(game->mlx, game->win);
+        // exit(0);
     }
     else
     {

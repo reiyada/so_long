@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_load.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rei <rei@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 09:45:01 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/08 18:58:56 by rei              ###   ########.fr       */
+/*   Updated: 2025/03/12 09:56:01 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void ft_load_images(t_game *game)
         !game->img.empty || !game->img.enemy||!game->img.exit)
     {
         ft_putstr_fd("[Error] Failed to load images\n", 2);
-        ft_free_map(game->map); // Free allocated memory
+        ft_free_elements(game);
+        // ft_free_map(game->map); // Free allocated memory
         exit(1);
     }
 }
