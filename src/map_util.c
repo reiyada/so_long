@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:29:30 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/12 14:28:13 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/15 14:58:56 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void ft_flood_fill(char **map, int x, int y)
 {
     if (y < 0 || x < 0 || !map[y] || !map[y][x])
         return;
-    if (map[y][x] == '1' || map[y][x] == 'V' || map[y][x] == 'H' )
+    if (map[y][x] == '1' || map[y][x] == 'V' || map[y][x] == 'H')
         return;
     map[y][x] = 'V'; //visited
     ft_flood_fill(map, x, y - 1);//up
@@ -240,7 +240,6 @@ void ft_free_img(t_game *game)
         mlx_destroy_image(game->mlx, game->img.enemy);
 }
 
-
 void    ft_free_map(char **map)
 {
     int y;
@@ -250,7 +249,8 @@ void    ft_free_map(char **map)
     y = 0;
     while (map[y])
     {
-        free(map[y]);
+        if (map[y])
+            free(map[y]);
         y++;
     }
     free(map);
@@ -292,4 +292,23 @@ void ft_init_img(t_game *game)
     game->img.exit = NULL;
     game->img.empty = NULL;
     game->img.enemy = NULL;
+}
+
+void ft_exit(char c, t_game *game)
+{
+    if (c == 'P')
+    {
+        ft_printf("You lost! The enemy caught you!\n");
+        ft_free_elements(game);
+        exit(1);
+    }
+    else if (c == 'E')
+    {
+        if (ft_check_collective(game))
+        {
+            ft_printf("You won!\n");
+            ft_free_elements(game);
+            exit(0);
+        }
+    }
 }

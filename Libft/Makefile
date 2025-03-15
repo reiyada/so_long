@@ -6,7 +6,7 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 12:33:47 by ryada             #+#    #+#              #
-#    Updated: 2025/02/08 08:55:16 by ryada            ###   ########.fr        #
+#    Updated: 2025/03/15 11:51:54 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ bonus: $(OBJS) $(BONUS_OBJS)
 
 clean:
 	@rm -f $(OBJS) $(BONUS_OBJS)
-	@echo "🧹 Cleaned object files of $(NAME)!"
 
 fclean: clean
 	@rm -f $(NAME)

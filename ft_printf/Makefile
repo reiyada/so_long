@@ -6,7 +6,7 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 08:40:34 by ryada             #+#    #+#              #
-#    Updated: 2025/02/08 08:55:10 by ryada            ###   ########.fr        #
+#    Updated: 2025/03/15 11:52:34 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ OBJS = $(SRCS:.c=.o) $(HELPERS:.c=.o) $(LIBFT:.c=.o)
 
 # Compiler and Flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIC
 
 # Rules
 all: $(NAME)
@@ -51,7 +51,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
-	@echo "📦 Archive created: $(NAME)"
 
 # Compile libft
 $(LIBFT_DIR)/%.o: $(LIBFT_DIR)/%.c
@@ -67,11 +66,10 @@ $(SRCS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 clean:
 	@rm -f $(OBJS)
-	@echo "🧹 Cleaned object files of $(NAME)!"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "🗑️ Removed executable and object files of $(NAME)!"
+	@echo "🗑️  Removed executable and object files of $(NAME)!"
 
 re: fclean all
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rei <rei@student.42.fr>                    +#+  +:+       +#+         #
+#    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/03/08 19:57:33 by rei              ###   ########.fr        #
+#    Updated: 2025/03/15 11:51:48 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,9 +68,6 @@ endef
 
 # Rules
 all: $(NAME)
-	
-	@echo "🚀 Compilation started..."
-	@echo "📦 Building executable: $(NAME)"
 	$(BANNER)
 
 $(NAME): $(OBJ_FILES)
@@ -84,13 +81,11 @@ $(NAME): $(OBJ_FILES)
 # Rule for compiling C files from src/
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)
-	@echo "🔨 Compiling: $<"
 	@$(CC) $(CFLAGS) -c $< -o $@ 
 
 # Rule for compiling C files from gnl/
 $(OBJ_DIR)%.o: $(GNL_DIR)%.c | $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)
-	@echo "🔨 Compiling: $<"
 	@$(CC) $(CFLAGS) -c $< -o $@ 2> /dev/null
 
 # Ensure OBJ_DIR exists before compiling
@@ -102,7 +97,6 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@make clean -C $(LIBFT_DIR) --silent
 	@make clean -C $(PRINTF_DIR) --silent
-	@echo "🧹 Cleaned object files of $(NAME)!"
 
 fclean: clean
 	@$(RM) $(NAME)

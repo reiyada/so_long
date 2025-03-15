@@ -6,7 +6,7 @@
 /*   By: ryada <ryada@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:10:09 by ryada             #+#    #+#             */
-/*   Updated: 2025/03/12 14:28:23 by ryada            ###   ########.fr       */
+/*   Updated: 2025/03/15 14:59:12 by ryada            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef struct s_pos
     int column;
     int row;
 } t_pos;
+
+typedef struct s_dis
+{
+    int x;
+    int y;
+} t_dis;
 
 typedef struct s_images
 {
@@ -58,8 +64,12 @@ typedef struct s_game
 
 //checker.c//
 int ft_check_collective(t_game *game);
+int ft_check_enemy(t_game *game);
 
 //enemy.c//
+t_dis ft_set_distanc(t_game *game);
+void ft_move_holiz(t_game *game, t_dis d, int new_x, int new_y);
+void ft_move_virt(t_game *game, t_dis d, int new_x, int new_y);
 void ft_move_enemy(t_game *game);
 
 //key.c//
@@ -102,4 +112,5 @@ int ft_check_element(t_game *game, char type);
 void    ft_free_elements(t_game *game);
 void ft_free_game(t_game *game);
 void ft_init_img(t_game *game);
+void ft_exit(char c, t_game *game);
 #endif
