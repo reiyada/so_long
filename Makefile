@@ -6,7 +6,7 @@
 #    By: ryada <ryada@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 15:38:32 by ryada             #+#    #+#              #
-#    Updated: 2025/03/15 11:51:48 by ryada            ###   ########.fr        #
+#    Updated: 2025/03/17 11:14:26 by ryada            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,19 @@ MLX_DIR = mlx/
 CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS = -L $(MLX_DIR) -lmlx -L /usr/lib -Imlx -lXext -lX11 -lm -lbsd
 
-
 SRC_FILES = checker.c \
 			enemy.c \
+			free.c \
 			key.c \
 			main.c \
+			map_error_util.c \
 			map_error.c \
 			map_load.c \
 			map_read.c \
 			map_util.c \
+			player.c \
+			position.c \
+			util.c \
             $(GNL_DIR)get_next_line_utils.c \
 			$(GNL_DIR)get_next_line.c\
 
